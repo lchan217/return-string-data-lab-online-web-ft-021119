@@ -1,7 +1,6 @@
 <% @products.each do |p| %>
   <h3><%= p.name %></h3>
   <p id = "product-<%=p.id%>"> <%= truncate (p.description) %> </p>
-  <div id="inventory-<%= p.id %>"></div>
   <button class="js-more" data-id="<%= p.id %>">More Info</button>
 <% end %>
 
@@ -12,13 +11,14 @@ $(function () {
 
     $.get("/products/" + id + "/description", function(data1) {
       $.get("/products/" + id + "/inventory", function(data2) {
-        data2 === "false" ? "Sold Out" : "Available"
 
         var desc = data1
         var inv = (data2 === "false" ? "Sold Out" : "Available")
 
         var output =  "<p>" + desc + "</p>" + inv
+
         $("#product-" + id).html(output);
+
       });
     });
   });
